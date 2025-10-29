@@ -1,41 +1,40 @@
-[tool.poetry]
+[project]
 name = "lab-snippets"
-packages = [
-    { include = "snippets" },
-]
 version = "2.1.8"
 description = "Code snippets for the course 'Distributed Systems -- Module 2' at the University of Bologna"
-authors = ["Giovanni Ciatto <giovanni.ciatto@unibo.it>"]
-license = "Apache 2.0"
+authors = [
+    { name = "Giovanni Ciatto", email = "giovanni.ciatto@unibo.it" }
+]
+license = { text = "Apache 2.0" }
 readme = "README.md"
+requires-python = ">= 3.9, < 4.0"
 
-[tool.poetry.dependencies]
-python = ">= 3.9.0 < 4.0.0"
+dependencies = [
+    "pygame>=2.6.0,<3.0.0",
+    "psutil>=7.0.0,<8.0.0",
+]
 
-pygame = "^2.6.0"
-psutil = "^7.0.0"
-[tool.poetry.group.dev.dependencies]
-coverage = "^7.4.0"
-mypy = "^1.10.1"
-poethepoet = "^0.37.0"
-poetry = "^2.0.0"
-pytest = "^8.2.2"
+[project.optional-dependencies]
+dev = [
+    "coverage>=7.4.0,<8.0.0",
+    "mypy>=1.10.1,<2.0.0",
+    "poethepoet>=0.37.0,<1.0.0",
+    "pytest>=8.2.2,<9.0.0",
+]
+
+[project.scripts]
+lab = "snippets:main"
 
 [tool.poe.tasks]
-# test = "python -m unittest discover -v -s tests -p '*.py'"
-# coverage = "coverage run -m unittest discover -v -s tests -p '*.py'"
-# coverage-report = "coverage report -m"
-# coverage-html = "coverage html"
 mypy = "mypy snippets"
 compile = "python -m compileall snippets"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[[tool.poetry.source]]
-name = "PyPI"
-priority = "primary"
+[tool.hatch.build.targets.wheel]
+packages = ["snippets"]
 
 [tool.mypy]
 ignore_missing_imports = true
